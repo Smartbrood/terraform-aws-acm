@@ -2,6 +2,13 @@
 
 Terraform module to create ACM Certificate
 
+module "acm" {
+  source  = "Smartbrood/acm/aws"
+  version = "1.0.0"
+  route53_zone_name = "mydomain.org"
+  subject_alternative_names = toset(["www.mydomain.org"])
+}
+
 ## Providers
 
 | Name | Version |
