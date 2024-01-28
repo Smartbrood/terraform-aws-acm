@@ -30,11 +30,12 @@ jobs:
         run: |
           make test
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
+        uses: gittools/actions/gitversion/setup@v0.10.2
         with:
           versionSpec: '5.x'
+          preferLatestVersion: true
       - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0.9.7
+        uses: gittools/actions/gitversion/execute@v0.10.2
         with:
           useConfigFile: true
       - name: Display SemVer
