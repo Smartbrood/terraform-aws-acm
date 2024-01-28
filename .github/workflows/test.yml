@@ -1,13 +1,23 @@
-name: Terraform test
+name: Test
 
 on:
-  workflow_call:
+  pull_request:
+    types:
+      - opened
+      - reopened
+    branches:    
+      - main
+      - 'release/**'
+  push:
+    branches-ignore:    
+      - main
+      - 'release/**'
 
 env:
   TERRAFORM_VERSION: 1.7.1
 
 jobs:
-  terraform_test:
+  test:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
