@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+      - 'release/**'
+      
+env:
+  TERRAFORM_VERSION: 1.7.1
 
 permissions:
   contents: write
@@ -15,9 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+      - name: Test terraform code
+        run: |
+          make test
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
@@ -34,6 +45,3 @@ jobs:
           git tag $GITVERSION_SEMVER
       - name: Push git tag
         run: git push origin $GITVERSION_SEMVER
-  test:
-    needs: gitversion
-    uses: ./.github/workflows/terraform_test.yml
